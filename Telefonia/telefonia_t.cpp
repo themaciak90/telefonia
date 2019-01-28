@@ -80,7 +80,7 @@ void telefonia_t::logowanie()
 	{
 		std::cout << "Witaj " << username << "." << std::endl;
 		if (acces == "Admin")
-			menu_admina();
+			menu_admina(username);
 		else
 			menu_uzytkownika(username);
 	}
@@ -97,7 +97,7 @@ void telefonia_t::logowanie()
 
 
 
-void telefonia_t::menu_admina()
+void telefonia_t::menu_admina(std::string helper)
 {
 	while (1)
 	{
@@ -110,11 +110,13 @@ void telefonia_t::menu_admina()
 		std::cout << "6.Wyswietl klienta." << std::endl;
 		std::cout << "7.Wyswietl umowe." << std::endl;
 		std::cout << "8.Usun klienta." << std::endl;
-		std::cout << "9.Usun numer" << std::endl;
-		std::cout << "10.Wstaw historie" << std::endl;
-		std::cout << "11.Wyswietl historie" << std::endl;
-		std::cout << "12.Wyswietl statystyki" << std::endl;
-		std::cout << "13.Zakoncz sesje" << std::endl;
+		std::cout << "9.Usun numer." << std::endl;
+		std::cout << "10.Wstaw historie." << std::endl;
+		std::cout << "11.Wyswietl historie." << std::endl;
+		std::cout << "12.Wyswietl statystyki." << std::endl;
+		std::cout << "13.Zadzwon." << std::endl;
+		std::cout << "14.Edytuj uzytkownika." << std::endl;
+		std::cout << "15.Zakoncz sesje." << std::endl;
 		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 		int wybor, numer;
 		uzytkownik_t u1;
@@ -161,8 +163,15 @@ void telefonia_t::menu_admina()
 		case 12:
 			u1.sredni_wiek();
 			u1.rozklad_plci();
+			u1.srednia_ilosc_numerow();
 			break;
 		case 13:
+			u1.zadzwon(helper);
+			break;
+		case 14:
+			u1.edytuj();
+			break;
+		case 15:
 			return;
 			break;
 
@@ -181,9 +190,10 @@ void telefonia_t::menu_uzytkownika(std::string helper)
 	{
 		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 		std::cout << "1.Wyswietl swoja umowe." << std::endl;
-		std::cout << "2.Zadzwon" << std::endl;
-		std::cout << "3.Wyswietl historie" << std::endl;
-		std::cout << "4.Zakoncz sesje" << std::endl;
+		std::cout << "2.Zadzwon." << std::endl;
+		std::cout << "3.Wyswietl historie." << std::endl;
+		std::cout << "4.Zmien haslo." << std::endl;
+		std::cout << "5.Zakoncz sesje." << std::endl;
 		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 		int wybor;
 		std::cin >> wybor;
@@ -199,6 +209,9 @@ void telefonia_t::menu_uzytkownika(std::string helper)
 			h1.wyswietl_historie(helper);
 			break;
 		case 4:
+			u1.zmien_haslo(helper);
+			break;
+		case 5:
 			return;
 			break;
 

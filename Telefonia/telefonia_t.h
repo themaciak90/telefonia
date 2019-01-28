@@ -14,7 +14,7 @@ public:
 	MYSQL mysql;
 	telefonia_t();
 	void logowanie();
-	void menu_admina();
+	void menu_admina(std::string);
 	void menu_uzytkownika(std::string);
 	void wyswietl_umowy();
 	void wyswietl_klient();

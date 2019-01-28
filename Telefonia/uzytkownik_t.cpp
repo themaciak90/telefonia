@@ -348,3 +348,162 @@ void uzytkownik_t::rozklad_plci()
 	mysql_close(&mysql);
 
 }
+
+
+
+void uzytkownik_t::srednia_ilosc_numerow()
+{
+	mysql_init(&mysql);
+	mysql_real_connect(&mysql, "127.0.0.1", "root", "", "telefonia", 0, NULL, 0);
+	int ilosc_numerow, ilosc_uzytkownikow;
+	MYSQL_ROW row;
+	MYSQL_RES* res;
+	mysql_query(&mysql, "SELECT count(*) from telefon");
+	res = mysql_store_result(&mysql);
+	while (row = mysql_fetch_row(res))
+	{
+		ilosc_numerow = atoi(row[0]);
+	}
+	mysql_query(&mysql, "SELECT count(*) from uzytkownik");
+	res = mysql_store_result(&mysql);
+	while (row = mysql_fetch_row(res))
+	{
+		ilosc_uzytkownikow = atoi(row[0]);
+	}
+	std::cout << "Srednia ilosc numerow na uzytkownika wynosi: " << (float)ilosc_numerow / ilosc_uzytkownikow << std::endl;
+
+}
+
+
+
+void uzytkownik_t::edytuj()
+{
+	mysql_init(&mysql);
+	mysql_real_connect(&mysql, "127.0.0.1", "root", "", "telefonia", 0, NULL, 0);
+	int id, wybor;
+	unsigned long hashed;
+	std::string helper, zapytanie;
+	std::stringstream ss, haslo;
+	const char *q;
+	std::cout << "Podaj id klienta, ktorego chcesz edytowac: ";
+	std::cin >> id;
+	std::cout << "1.Edytuj imie." << std::endl;
+	std::cout << "2.Edytuj nazwisko." << std::endl;
+	std::cout << "3.Edytuj login" << std::endl;
+	std::cout << "4.Edytuj uprawnienia" << std::endl;
+	std::cout << "5.Edytuj haslo" << std::endl;
+	std::cin >> wybor;
+	switch (wybor)
+	{
+	case 1:
+		std::cin >> helper;
+		ss << "UPDATE uzytkownik SET imie = '" << helper << "' WHERE id_uzytkownika = '" << id << "'";
+		helper = ss.str();
+		q = helper.c_str();
+		mysql_query(&mysql, q);
+		mysql_close(&mysql);
+		break;
+	case 2:
+		std::cin >> helper;
+		ss << "UPDATE uzytkownik SET nazwisko = '" << helper << "' WHERE id_uzytkownika = '" << id << "'";
+		helper = ss.str();
+		q = helper.c_str();
+		mysql_query(&mysql, q);
+		mysql_close(&mysql);
+		break;
+	case 3:
+		std::cin >> helper;
+		ss << "UPDATE uzytkownik SET login = '" << helper << "' WHERE id_uzytkownika = '" << id << "'";
+		helper = ss.str();
+		q = helper.c_str();
+		mysql_query(&mysql, q);
+		mysql_close(&mysql);
+		break;
+	case 4:
+		std::cin >> helper;
+		ss << "UPDATE uzytkownik SET uprawnienia = '" << helper << "' WHERE id_uzytkownika = '" << id << "'";
+		helper = ss.str();
+		q = helper.c_str();
+		mysql_query(&mysql, q);
+		mysql_close(&mysql);
+		break;
+	case 5:
+		std::cin >> helper;
+		hashed = hashowanko2(helper);
+		haslo << std::hex << hashed;
+		helper = haslo.str();
+		ss << "UPDATE uzytkownik SET haslo = '" << helper << "' WHERE id_uzytkownika = '" << id << "'";
+		helper = ss.str();
+		q = helper.c_str();
+		mysql_query(&mysql, q);
+		mysql_close(&mysql);
+		break;
+	default:
+		std::cout << "Brak takiej opcji" << std::endl;
+		break;
+	}
+}
+
+
+
+void uzytkownik_t::zmien_haslo(std::string helper)
+{
+	mysql_init(&mysql);
+	mysql_real_connect(&mysql, "127.0.0.1", "root", "", "telefonia", 0, NULL, 0);
+	MYSQL_ROW row;
+	MYSQL_RES* res;
+	unsigned long hashed;
+	int qstate;
+	std::string zapytanie, trial, haslo_stare, haslo_nowe, haslo_stare_hashed;
+	std::stringstream ss, ss2;
+	const char *q;
+	ss << "SELECT haslo FROM uzytkownik where login = '" << helper << "'";
+	zapytanie = ss.str();
+	q = zapytanie.c_str();
+	qstate = mysql_query(&mysql, q);
+	if (qstate == 0)
+	{
+		res = mysql_store_result(&mysql);
+		while (row = mysql_fetch_row(res))
+		{
+			trial = row[0];
+		}
+	}
+	else std::cout << "Blad " << mysql_error(&mysql) << std::endl;
+	std::cout << "Podaj obecne haslo: ";
+	std::cin >> haslo_stare;
+	hashed = hashowanko2(haslo_stare);
+	ss2 << std::hex << hashed;
+	haslo_stare_hashed = ss2.str();
+	if (haslo_stare_hashed == trial)
+	{
+		std::cout << "Podaj nowe haslo: " << std::endl;
+		std::cin >> haslo_nowe;
+		while (haslo_nowe == haslo_stare)
+		{
+			std::cout << "Haslo nie moze sie powtarzac. Podaj nowe: " << std::endl;
+			std::cin >> haslo_nowe;
+		}
+		hashed = hashowanko2(haslo_nowe);
+		ss2.str("");
+		ss2.clear();
+		ss2 << std::hex << hashed;
+		haslo_nowe = ss2.str();
+		ss.str("");
+		ss.clear();
+		ss << "Update uzytkownik set haslo = '" << haslo_nowe << "' where login = '" << helper << "'";
+		zapytanie = ss.str();
+		q = zapytanie.c_str();
+		mysql_query(&mysql, q);
+		mysql_close(&mysql);
+	}
+	else
+	{
+		std::cout << "Niepoprawne haslo." << std::endl;
+		return;
+		mysql_close(&mysql);
+	}
+
+	
+
+}//

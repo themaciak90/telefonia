@@ -25,11 +25,13 @@ private:
 	void usun_konto();
 	void sredni_wiek();
 	void rozklad_plci();
-
+	void srednia_ilosc_numerow();
+	void edytuj();
 
 	//funkcje usera
 	void wyswietl_swoje_numery(std::string);
 	void zadzwon(std::string);
+	void zmien_haslo(std::string);
 
 		
 };
