@@ -1,8 +1,7 @@
-﻿  uzytkownik_t.cpp
-c:\users\lenovo\desktop\różne\obiektowka\telefonia\telefonia\uzytkownik_t.cpp(317): warning C4267: "=": konwersja z "size_t" do "int", możliwa utrata danych
+﻿  historia_t.cpp
   Trwa generowanie kodu
-  1 of 1079 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  8 of 1082 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+    3 functions were new in current compilation
+    39 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   Telefonia.vcxproj -> C:\Users\LENOVO\Desktop\różne\Obiektowka\Telefonia\x64\Release\Telefonia.exe

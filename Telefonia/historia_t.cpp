@@ -1,5 +1,5 @@
 #include "historia_t.h"
-
+//komentarz testowy
 
 
 historia_t::historia_t()
@@ -70,11 +70,14 @@ void historia_t::wstaw_historie_admin()
 	}
 	std::cout << "Podaj czas rozmowy w formiacie HH:MM:SS:  ";
 	std::cin >> czas;
+	std::cout << "Podaj date rozmowy w formiacie YYYY-MM-DD HH:MM:SS:  ";
+	std::cin.ignore();
+	std::getline(std::cin, data);
 
 
 	ss.str("");
 	ss.clear();
-	ss << "INSERT INTO historia(dzwoniacy, rozmowca, czas) VALUES('" << numer_dzwoniacego << "','" << numer_odbierajacego << "','" << czas << "')";
+	ss << "INSERT INTO historia(dzwoniacy, rozmowca, czas, data_rozmowy) VALUES('" << numer_dzwoniacego << "','" << numer_odbierajacego << "','" << czas << "','" << data << "')";
 	zapytanie = ss.str();
 	q = zapytanie.c_str();
 	qstate =mysql_query(&mysql, q);
